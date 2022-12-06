@@ -1,0 +1,20 @@
+name: CD
+on: 
+  push:
+    branches:
+      - "main"
+jobs: 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: build image and push to docker hub
+        uses: docker/build-push-action@v1.1.0
+        with:
+          username: ${{ secrets. DOCKER_USER }}
+          password: ${{ secrets. DOCKER_PASSWORD }}
+          repository: csturion/go-app
+          tags: ${{ github.sha }}, latest
